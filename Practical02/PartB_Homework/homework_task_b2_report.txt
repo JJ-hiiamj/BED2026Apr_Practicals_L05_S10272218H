@@ -1,0 +1,15 @@
+app.use(express.json()) ==> Enables the server to read JSON data.
+req.body ==> Carries large amounts of data (objects).
+req.query ==> Filters or sorts a list of data.
+req.params.id ==> Identifies one specific record.
+
+GET is to read the records
+POST is to create records
+PUT is to update records
+DELETE is to delete records
+
+200 OK ==> The request is successful
+201 Created ==> An object is successfully created
+400 Bad Request ==> Request is invalid or missing
+404 Not Found ==> Non existent resource
+500 Internal Server Error ==> Server is facing some problems.

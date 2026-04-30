@@ -1,0 +1,7 @@
+Reflection: 
+I learnt that REST APIs, are suitable for client based use. It allows for client to communicate with server.
+I understood the use of HTTPs methods (GET, POST, PUT, DELETE) by reading the slides. I also understood it better by trying them out with the Practical.
+Yes, when trying to look for the item to delete or update, I used the curly brackets which did not allow me to find the food item I was looking for. But eventually with trial and error i figured out that the example with curly brackets are not needed.
+
+a. POST is meant for creating objects and PUT is meant for updating objects.
+b. 404 not found.
