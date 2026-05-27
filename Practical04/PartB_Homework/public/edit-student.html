@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Student</title>
+    <link rel="stylesheet" href="main.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Edit Student</h1>
+      <a class="link-btn" href="students.html">Back to Students</a>
+
+      <div id="loadingMessage">Loading student details...</div>
+
+      <form id="editStudentForm" style="display: none">
+        <input id="studentId" type="hidden" />
+
+        <label for="editName">Name</label>
+        <input id="editName" name="name" required maxlength="100" />
+
+        <label for="editAddress">Address</label>
+        <input id="editAddress" name="address" maxlength="255" />
+
+        <div class="actions" style="margin-top: 14px">
+          <button type="submit">Update</button>
+        </div>
+      </form>
+
+      <div id="message" class="message"></div>
+    </div>
+
+    <script src="edit-student.js"></script>
+  </body>
+</html>

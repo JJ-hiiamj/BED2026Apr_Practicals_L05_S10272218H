@@ -1,0 +1,11 @@
+Task 1: Refactoring into MVC
+1. I moved code from app.js into models, controllers, and routes folders.
+2. The main challenge was fixing imports/exports and making sure paths were correct.
+3. MVC makes me think more clearly on where to put new features.
+4. It is more organized because each file has one a job.
+5. Separating concerns makes it easier to change database or request logic without breaking other parts.
+
+Task 2: Robustness & Security
+1. Validation stops bad data, like when someone tries to add a student without a name.
+2. Parameterized queries are safer because user input is treated as data, not SQL code, so injection fails.
+3. Good error handling hides details from users, so attackers don’t see sensitive info about the system.
