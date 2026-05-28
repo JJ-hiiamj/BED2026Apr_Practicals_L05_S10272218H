@@ -5,104 +5,72 @@ async function getAllStudents() {
   let connection;
   try {
     connection = await sql.connect(dbConfig);
-    const result = await connection
-      .request()
-      .query(
-        "SELECT student_id AS id, name, address FROM Students"
-      );
+    const result = await connection.request().query("SELECT student_id, name, address FROM Students");
     return result.recordset;
-  } catch (error) {
-    console.error("Database error:", error);
-    throw error;
   } finally {
     if (connection) await connection.close();
   }
 }
 
+// Get student by ID
 async function getStudentById(id) {
   let connection;
   try {
     connection = await sql.connect(dbConfig);
-    const request = connection.request();
-    request.input("id", id);
-    const result = await request.query(
-      "SELECT student_id AS id, name, address FROM Students WHERE student_id = @id"
-    );
+    const result = await connection.request()
+      .input("id", sql.Int, id)
+      .query("SELECT student_id, name, address FROM Students WHERE student_id = @id");
     return result.recordset[0] || null;
-  } catch (error) {
-    console.error("Database error:", error);
-    throw error;
   } finally {
     if (connection) await connection.close();
   }
 }
 
-async function createStudent(studentData) {
+// Create student
+async function createStudent(data) {
   let connection;
   try {
     connection = await sql.connect(dbConfig);
-    const request = connection.request();
-    request.input("name", studentData.name);
-    request.input("address", studentData.address ?? "");
-    const result = await request.query(
-      `INSERT INTO Students (name, address)
-       OUTPUT INSERTED.student_id AS id, INSERTED.name, INSERTED.address
-       VALUES (@name, @address)`
-    );
-    return result.recordset[0];
-  } catch (error) {
-    console.error("Database error:", error);
-    throw error;
+    const result = await connection.request()
+      .input("name", sql.VarChar(100), data.name)
+      .input("address", sql.VarChar(255), data.address)
+      .query("INSERT INTO Students (name, address) OUTPUT INSERTED.student_id VALUES (@name, @address)");
+    const newId = result.recordset[0].student_id;
+    return await getStudentById(newId);
   } finally {
     if (connection) await connection.close();
   }
 }
 
-async function updateStudent(id, updatedStudentData) {
+// Update student
+async function updateStudent(id, data) {
   let connection;
   try {
     connection = await sql.connect(dbConfig);
-    const request = connection.request();
-    request.input("id", id);
-    request.input("name", updatedStudentData.name);
-    request.input("address", updatedStudentData.address ?? "");
-    const result = await request.query(
-      `UPDATE Students
-       SET name = @name, address = @address
-       OUTPUT INSERTED.student_id AS id, INSERTED.name, INSERTED.address
-       WHERE student_id = @id`
-    );
-    return result.recordset[0] || null;
-  } catch (error) {
-    console.error("Database error:", error);
-    throw error;
+    const result = await connection.request()
+      .input("id", sql.Int, id)
+      .input("name", sql.VarChar(100), data.name)
+      .input("address", sql.VarChar(255), data.address)
+      .query("UPDATE Students SET name=@name, address=@address WHERE student_id=@id");
+    if (result.rowsAffected[0] === 0) return null;
+    return await getStudentById(id);
   } finally {
     if (connection) await connection.close();
   }
 }
 
+// Delete student
 async function deleteStudent(id) {
   let connection;
   try {
     connection = await sql.connect(dbConfig);
-    const request = connection.request();
-    request.input("id", id);
-    const result = await request.query(
-      "DELETE FROM Students WHERE student_id = @id"
-    );
+    const result = await connection.request()
+      .input("id", sql.Int, id)
+      .query("DELETE FROM Students WHERE student_id=@id");
     return result.rowsAffected[0] > 0;
-  } catch (error) {
-    console.error("Database error:", error);
-    throw error;
   } finally {
     if (connection) await connection.close();
   }
 }
 
-module.exports = {
-  getAllStudents,
-  getStudentById,
-  createStudent,
-  updateStudent,
-  deleteStudent,
-};
+module.exports = { getAllStudents, getStudentById, createStudent, updateStudent, deleteStudent };

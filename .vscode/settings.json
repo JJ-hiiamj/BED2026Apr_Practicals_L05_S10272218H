@@ -1,0 +1,8 @@
+{
+    "chat.tools.terminal.autoApprove": {
+        "/^cd \"c:\\\\Users\\\\amk30\\\\OneDrive\\\\Desktop\\\\Back End\\\\BED2026Apr_Practicals_L05_S10272218H\\\\Practical04\\\\books-api-mvc-db\"; node app\\.js$/": {
+            "approve": true,
+            "matchCommandLine": true
+        }
+    }
+}

@@ -9,6 +9,7 @@ const dbConfig = require("./dbConfig");
 dotenv.config();
 
 const bookController = require("./controllers/bookController");
+const userController = require("./controllers/userController");
 const {
   validateBook,
   validateBookId,
@@ -32,6 +33,17 @@ app.post("/books", bookController.createBook);
 // Add routes for PUT/DELETE if implemented, applying appropriate middleware
 app.put("/books/:id", validateBookId, validateBook, bookController.updateBook);
 app.delete("/books/:id", validateBookId, bookController.deleteBook);
+
+// Routes for users
+app.post("/users", userController.createUser);
+app.get("/users", userController.getAllUsers);
+app.get("/users/search", userController.searchUsers);
+app.get("/users/with-books", userController.getUsersWithBooks);
+app.get("/users/:id", userController.getUserById);
+app.put("/users/:id", userController.updateUser);
+
+// Add routes for searching users and fetching users with books
+app.delete("/users/:id", userController.deleteUser);
 
 // Start server
 app.listen(port, () => {
